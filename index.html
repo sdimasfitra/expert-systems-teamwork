@@ -1,0 +1,500 @@
+<html>
+    <head>
+        <title>Psikotes.com</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="Situs untuk mengidentifikasi Karakteristik dan Kepribadian pada diri Anda.">
+        <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="theme-color" content="#f8f9fa">
+
+        <link rel="manifest" href="manifest.json">
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+
+        <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-vue.css">
+        
+        
+
+        <!-- development version, includes helpful console warnings -->
+        <script src="assets/js/vue.js"></script>
+        <script src="assets/js/polyfill.min.js"></script>
+        <script src="assets/js/bootstrap-vue.js"></script>
+
+        <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+        <script type="text/javascript" src="assets/js/popper.min.js"></script>
+        <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/sweetalert.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- Image and text -->
+            <nav class="navbar navbar-light fixed-top" style="background-color: #f8f9fa;">
+              <a class="navbar-brand" v-on:click="goHome">
+                <img src="icon.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
+                    <b> SISTEM PAKAR TEAMWORK TEST </b>
+              </a>
+            </nav>
+
+            <div class="container animated fadeIn" style="margin-top: 70px; margin-bottom: 100px" v-if="home">
+                <div class="row mt-3">
+                    <div class="col-12 col-lg-12">
+                        <div class="card-header">
+                            <h5>Selamat Datang..  Aplikasi Sistem Pakar ini akan mengidentifikasi seberapa baik Anda bekerja sama dengan rekan tim kerja Anda berdasarkan Pertanyaan yang akan diberikan dengan  <i><b>Metode Forward Chaining (FC)</b></i>. 
+                                
+                            </h5><!--  <i class="fas fa-heart" style="color: salmon"></i> -->
+                            <h5 class="text-info">Jawablah secara spontan sesuai dengan kondisi diri Anda sendiri..</h5>
+                            <h5><b>Segera Masukkan Nama Anda dan klik Tombol Mulai!</b></h5> 
+                        </div>
+                            
+                            
+                        
+                    </div>
+                </div>
+<br>
+                <div class="row mt-2 mb-3">
+                    <div class="col-12 col-lg-4">
+                        <h3>Hallo {{ name }}!</h3>
+                    </div>                
+                </div>
+
+                <div class="row my-3" v-if='submited'>
+                    <div class="col-12 col-lg-4 col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" v-model="name" placeholder="Masukkan Nama Anda!">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" v-on:click="inputName" type="submit">Mulai</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-3 animamted fadeInUp" v-if='mulai'>
+                    <div class="col-12 col-lg-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                            SISTEM PAKAR TEAMWORK TEST
+                            </div>
+                            
+                            <!--PERTANYAAN KEPRIBADIAN-->
+                            <div class="card-body" v-if='visible[0]'>
+                                <h5 class="card-title animated fadeIn text-left">1. Jika Anda bekerja dengan rekan kerja lainnya, seberapa besar keyakinan Anda percaya bahwa rekan Anda bekerja 
+                                <br> dengan baik ?</h5>
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(0, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(0, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(0, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(0, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(0, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(0, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[1]'>
+                                <h5 class="card-title animated bounceIn">2. Seberapa besar keyakinan Anda menghargai rekan-rekan kerja Anda dalam Tim kerja Anda ?</h5>
+                                
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(1, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(1, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(1, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(1, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(1, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(1, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[2]'>
+                                <h5 class="card-title animated bounceIn">3. Seberapa besar keyakinan Anda peduli dengan kesulitan yang dihadapi rekan dalam tim kerja Anda ?</h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(2, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(2, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(2, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(2, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(2, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(2, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[3]'>
+                                <h5 class="card-title animated bounceIn">4. Seberapa baik Anda mengakomodasi cara-cara penyelesaian tugas yang diinginkan oleh mayoritas anggota tim ? </h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(3, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(3, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(3, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(3, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(3, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(3, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[4]'>
+                                <h5 class="card-title animated bounceIn">5. Seberapa baik Anda mengikuti jadwal kerja yang telah menjadi kesepakatan tim ?</h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(4, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(4, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(4, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(4, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(4, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(4, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[5]'>
+                                <h5 class="card-title animated bounceIn">6. Seberapa baik Anda berkomunikasi dengan rekan kerja lainnya untuk kelancaran tugas tim ?</h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(5, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(5, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(5, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(5, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(5, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(5, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[6]'>
+                                <h5 class="card-title animated bounceIn">7. Seberapa baik Anda mendelegasikan kewenangan terhadap anggota tim ?</h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(6, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(6, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(6, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(6, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(6, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(6, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[7]'>
+                                <h5 class="card-title animated bounceIn">8. Seberapa baik Anda dapat menyakinkan anggota tim lain bahwa tim bisa sukses ?</h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(7, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(7, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(7, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(7, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(7, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(7, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>  
+
+                            <div class="card-body text-left" v-if='visible[8]'>
+                                <h5 class="card-title animated bounceIn">9. Seberapa baik Anda meredakan perselisihan yang terjadi antara anggota tim ?</h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(8, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(8, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(8, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(8, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(8, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(8, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>  
+
+                            <div class="card-body text-left" v-if='visible[9]'>
+                                <h5 class="card-title animated bounceIn">10. Seberapa baik Anda mendengarkan saran dan pendapat pihak lain ?</h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(9, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(9, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(9, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(9, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(9, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(9, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+                <!-- Row end -->
+
+                <!--HASIL PERTANYAAN-->
+                <div class="row mt-2" v-if='selesai'>
+                    <div class="col-12">
+                        <div class="alert alert-success animated bounceIn" role="alert">
+                            <h4 class="alert-heading">Berikut Tes Kerjasama Anda:</h4>
+                            <p v-if='cfCombine <= 85'>Dari pertanyaan yang telah Anda jawab, sistem mengidentifikasi bahwa Nilai Kerjasama Anda   <b>{{ cfCombine }}%</b>.</p>
+                            <p v-if='cfCombine > 85'>Dari pertanyaan yang telah Anda jawab, sistem mengidentifikasi bahwa Nilai Kerjasama Anda <b>{{ cfCombine }}%</b>.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <div class="alert alert-info text-justify animated bounceIn delay-1s" role="alert" v-if="cfCombine > 85">
+                            <p><h5> Kerjasama Anda Baik. Anda Mampu Bekerja Dalam Tim Dengan Secara Optimal.</h5>
+                            Jika skor tes kerjasama Anda Tinggi, berarti Anda memiliki karakter yang baik untuk bekerja sama dengan orang lain dalam sebuah Tim untuk mencapai tujuan tertentu.</p>
+                        </div>
+                        <div class="alert alert-warning text-justify animated bounceIn delay-1s" role="alert" v-if='cfCombine >= 65 && cfCombine <= 85'>
+                            <p><h5> Kerjasama Anda Sedang. Anda Cukup Mampu Bekerja Dalam Tim, Meskipun Belum Optimal.</h5>
+                            Jika skor Anda Sedang, Anda perlu meningkatkan lagi karakter kerjasama Anda. Cermati poin mana saja yang belum Anda miliki. Sadari. Perbaiki.</p>
+                        </div>
+                        <div class="alert alert-danger text-justify animated bounceIn delay-1s" role="alert" v-if='cfCombine < 65'>
+                            <p><h5> Kerjasama Anda Buruk. Anda Adalah Seorang Yang Tidak Mampu Bekerjasama Dengan Orang Lain. Anda Lebih Suka Bekerja Sendiri.</h5>
+                            Jika skor Anda Rendah. Anda harus menyadari betul bahwa dalam dunia kerja maupun dalam kehidupan sehari-hari, pastilah diperlukan kerjasama dengan orang lain. Tak mungkin orang bisa hidup sendirian. Oleh sebab itu, <b>"BERTAUBATLAH"</b> Sadari. Perbaiki karakter kerjasama Anda.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="container animated fadeIn">
+                        <button class="btn btn-primary animated bounceIn delay-2s" v-on:click='init' role="alert" id="intro" >Ulangi</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Container (APP) end -->
+
+            <div class="container animated-1s fadeIn" style="margin-bottom: 100px; margin-top: 70px" v-if='info'>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>PSIKOTES BEKERJA DALAM TIM (TEAMWORK TEST)</h3>
+                            </div>
+                                                        
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <h4 class="text-info">BICARA TENTANG TEAM WORK</h4> 
+                                                                      
+
+                                    <br>
+                                    <p><b> Team Work atau Kerja Sama</b> adalah sebuah konsep tentang sekelompok melakukan tugas dalam mencapai tujuan secara bersama-sama. Di berbagai literatur telah dinyatakan bahwa team work mampu menyediakan tenaga kolektif dan merupakan hal yang krusial dalam berorganisasi. Lantas apakah team work hanya sebatas bekerja secara bersama dengan orang lain?</p> 
+
+                                    <p>
+                                        Jawabannya adalah tidak. <b>Berdasarkan pengalaman pribadi,</b> penulis merangkum makna team work sebagai berikut:
+                                    </p>
+
+                                    <p><b>Team Work adalah tentang sinergi,</b> terhubung dengan orang lain dengan memegang visi dan menjalankan misi yang sama. Di dalamnya butuh relasi timbal-balik satu individu dengan yang lainnya, yang walaupun memiliki tugas yang berbeda-beda tetapi saling berkaitan.</p>
+
+                                    <p><b> Team Work adalah tentang tanggung jawab,</b> tentang bagaimana setiap individu di dalam tim memiliki tugas dan perannya masing-masing untuk mencapai tujuan bersama.</p>
+                                    <p><b>Team Work adalah tentang perspektif,</b>  yakni bagaimana setiap individu mampu memahami satu dengan yang lainnya, berpikir terbuka, memiliki respek satu sama lain, membiarkan diri menerima ide-ide baru yang  digerakkan oleh dinamika team serta menjadi asertif di dalamnya.
+                                    </p>
+                                    <p>
+                                        <b>Team Work adalah tentang kesediaan untuk berkembang dan belajar,</b> yakni bagaimana setiap individu mampu mengabaikan ego dari diri untuk bekerja sama dengan orang lain dan mengakui bahwa diri tidaklah sempurna dengan memberi ruang untuk belajar dari orang lain.  </p>
+                                  
+
+                                    
+                                </li>
+                            </ul>
+
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <h4 class="text-info">TEAMWORK TEST</h4>
+                                        
+                                        <table border="1" cellpadding="10">
+                                            <tr rowspan="2">
+                                                <th >Skor Total </th>
+                                                <th >Nilai TeamWork</th>
+                                            </tr>
+                                            <tr>
+                                                <td>85-100</td>
+                                                <td>Nilai Kerjasama Anda Baik. Anda mampu bekerja dalam Tim dengan secara optimal.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>65-85</td>
+                                                <td>Nilai Kerjasama Anda Sedang. Anda cukup mampu bekerja dalam Tim, meskipun belum optimal.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Dibawah 65</td>
+                                                <td>Nilai Kerjasama Anda Buruk. Anda adalah seorang yang tidak mampu bekerjasama dengan orang lain. Anda lebih suka bekerja sendiri.</td>
+                                            </tr>
+                                        </table>
+                                        
+                                        
+                                    </li>
+
+                                    <li class="list-group-item">
+                                        <h4 class="text-info">TIPS MENGERJAKAN TES TEAMWORK</h4> 
+                                        <ol>
+                                            <li>  Jika skor tes kerjasama Anda Tinggi, berarti Anda memiliki karakter yang baik untuk bekerja sama dengan orang lain dalam sebuah Tim untuk mencapai tujuan tertentu.</li>
+                                            <li>  Jika skor Anda Sedang, Anda perlu meningkatkan lagi karakter kerjasama Anda. Cermati poin mana saja yang belum Anda miliki. Sadari. Perbaiki.</li>
+                                            <li>  Jika skor Anda Rendah. Anda harus menyadari betul bahwa dalam dunia kerja maupun dalam kehidupan sehari-hari, pastilah diperlukan kerjasama dengan orang lain. Tak mungkin orang bisa hidup sendirian. Oleh sebab itu, <b>"BERTAUBATLAH"</b> Sadari. Perbaiki karakter kerjasama Anda.</li>
+                                        </ol>
+                                        
+                                    </li>
+
+                                    
+                                           
+
+                            </ul>
+                            <div class="card-body">
+                                <p><h5>Yakin, masih mau nunda ngerjain Tes TeamWork (Bekerja dalam Tim) ?</h5>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Container About -->
+            <div class="container" style="margin-top: 70px; margin-bottom: 100px" v-if='about'>
+               
+                <div class="row animated fadeIn">
+                    <div class="col-12 offset-lg-1 col-lg-10">
+                        <div class="card">
+                            <div class="card-header">
+                               <h3> TENTANG KAMI </h3>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Shadows Team <br>Sistem Pakar Bekerja Dalam Tim (TeamWork Test)</h5>
+                                <p>Dibuat untuk memenuhi Tugas Akhir Mata Kuliah Sistem Pakar Semester 5 (Tahun Ajaran 2022-2023) oleh Mahasiswa Informatika dan Teknologi Pendidikan Universitas Baturaja Angkatan 2020.</p>
+                                <div class="row text-center">
+                                    <div class="col-lg-4 col-md-4"><a href="https://instagram.com/dimasfitra_s"><b>Dimas Fitra Setiawan</b></a></div>
+                                    <div class="col-lg-4 col-md-4"><a href="https://instagram.com/halimahsdiyh08"><b>Halimatus Sya'diyah</b></a></div>
+                                    <div class="col-lg-4 col-md-4"><a href="https://instagram.com/muhammad_al_0308"><b>Muhammad Alfin Nur</b></a></div>
+                                    <div class="col-lg-4 offset-lg-2 col-md-4 offset-md-2"><a href="https://instagram.com/anggik_1011"><b>Fitri Anggitasari</b></a></div>
+                                    <div class="col-lg-4 col-md-4"><a href="https://instagram.com/alfaridzie_21"><b>Muhammad Alfaridzie Umri</b></a></div>
+                                </div>
+                                <hr>
+                                <p class="text-center">Made with <i class="fas fa-heart" style="color: salmon"></i>  @Shadows Team</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Container about end -->
+            </div>
+
+            <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+                <a class="navbar-brand text-white d-lg-none">Menu</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active" v-on:click="goHome" id="homeButton">
+                            <span class="nav-link" style="cursor: pointer;"><i class="fas fa-stethoscope mr-auto"></i> Identification <span class="sr-only">(current)</span></span>
+                        </li>
+                        
+                        <li class="nav-item" v-on:click="goInfo" id="infoButton">
+                            <span class="nav-link" style="cursor: pointer;"><i class="fas fa-atlas mr-auto"></i> Informasi</span>
+                        </li>
+                        <li class="nav-item" v-on:click="goAbout" id="aboutButton">
+                            <span class="nav-link" style="cursor: pointer;"><i class="fas fa-lightbulb mr-auto"></i> Tentang Kami</span>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </body>
+    <script type="text/javascript" src="assets/js/script.js"></script>
+</html>
